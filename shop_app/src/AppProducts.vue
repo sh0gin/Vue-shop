@@ -44,11 +44,12 @@
         </div>
 
         <!-- Список товаров -->
-        <div class="row" v-if="filteredProducts.length">
-          <div class="col-lg-4 col-md-6 mb-4" v-for="product in filteredProducts" :key="product.id">
+        <!-- // v-if="filteredProducts.length" -->
+        <div class="row" > 
+          <div class="col-lg-4 col-md-6 mb-4" v-for="product in filteredProducts.products" :key="product.id">
 
             <div class="product-card card h-100">
-              <img src='http://web3-14-08-25.local/imageForProduct/6CkBUa--ESntrplLKwfqhROk58MUTAqyFxib9z-haqPK-4JWtBT_5ABv7zGqktFjc6ccKkeI97HajB5.jpg' :alt="product.name"
+              <img :src='product.file_url[0]' :alt="product.name"
                 class="product-image">
 
               <div class="card-body">
@@ -70,17 +71,17 @@
               </div>
             </div>
           </div>
+        <app-pagination :count="product.totalCount" ></app-pagination>
         </div>
-
         <!-- Состояние при отсутствии товаров -->
-        <div class="empty-state" v-else>
+        <!-- <div class="empty-state" v-else>
           <i class="fas fa-search fa-3x text-muted mb-3"></i>
           <h4>Товары не найдены</h4>
-          <p class="text-muted">Попробуйте изменить параметры поиска или фильтры</p>
+          <p class="text-muted">Попробуйте изменить параметры поиска или фильтры</p> -->
           <!-- <button class="btn btn-primary" @click="clearFilters">
             Сбросить фильтры
           </button> -->
-        </div>
+        <!-- </div> -->
       </div>
     </div>
   </div>
@@ -88,11 +89,14 @@
 </template>
 
 <script>
+import AppPagination from './AppPagination.vue';
+
 
 export default {
   data() {
     return {
       filteredProducts: null,
+      totalCount: null,
     }
   },
   methods: {
@@ -117,6 +121,11 @@ export default {
       });
       if (response.ok) {
         this.filteredProducts = await response.json();
+        this.filteredProducts = this.filteredProducts.data;
+        this.totalCount = this.filteredProducts.data.totalCount;
+        this.filteredProducts = this.filteredProducts.products;
+        console.log(this.filteredProducts);
+        console.log(this.totalCount);
       }
       
     }
@@ -127,6 +136,9 @@ export default {
   created() {
     this.loadProducts()
   },
+  components: {
+    AppPagination
+  }
 }
 </script>
 
