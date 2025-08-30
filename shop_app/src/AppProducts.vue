@@ -46,7 +46,7 @@
         <!-- Список товаров -->
         <!-- // v-if="filteredProducts.length" -->
         <div class="row" > 
-          <div class="col-lg-4 col-md-6 mb-4" v-for="product in filteredProducts.products" :key="product.id">
+          <div class="col-lg-4 col-md-6 mb-4" v-for="product in filteredProducts" :key="product.id">
 
             <div class="product-card card h-100">
               <img :src='product.file_url[0]' :alt="product.name"
@@ -71,7 +71,7 @@
               </div>
             </div>
           </div>
-        <app-pagination :count="product.totalCount" ></app-pagination>
+        <app-pagination :count="count" @active_page="loadProducts"></app-pagination>
         </div>
         <!-- Состояние при отсутствии товаров -->
         <!-- <div class="empty-state" v-else>
@@ -96,7 +96,7 @@ export default {
   data() {
     return {
       filteredProducts: null,
-      totalCount: null,
+      count: null,
     }
   },
   methods: {
@@ -105,11 +105,12 @@ export default {
       if (quantity > 10) return 'quantity-medium';
       return 'quantity-low';
     },
-    async loadProducts() {
 
+    async loadProducts(page = 1) {
+      let count = 4 // Здесь меняется количество вывода на странницу продуктов за раз
       const raw = JSON.stringify({
-          "page": 1,
-          "count": 3
+          "page": page,
+          "count": count
       });
 
       const response = await fetch(`${this.$config.apiUrl}api/products`, {
@@ -120,12 +121,12 @@ export default {
           body: raw,
       });
       if (response.ok) {
-        this.filteredProducts = await response.json();
-        this.filteredProducts = this.filteredProducts.data;
-        this.totalCount = this.filteredProducts.data.totalCount;
-        this.filteredProducts = this.filteredProducts.products;
-        console.log(this.filteredProducts);
-        console.log(this.totalCount);
+        let result = await response.json();
+        // this.filteredProducts = this.filteredProducts.data;
+        // this.totalCount = this.filteredProducts.data.totalCount;
+        this.filteredProducts = result.data.products;
+        this.count = Math.ceil(result.data.totalCount / count);
+
       }
       
     }
@@ -138,7 +139,7 @@ export default {
   },
   components: {
     AppPagination
-  }
+  },
 }
 </script>
 
