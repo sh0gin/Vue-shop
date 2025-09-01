@@ -71,16 +71,7 @@ export default {
   },
   methods: {
     async login() {
-
-      fetch('http://web3-14-08-25.local/imageForProduct/M-Ggon-312c10f6e2f6cfee7afd836555965079.jpeg')
-        .then(response => {
-          console.log('Status:', response.status);
-          console.log('Headers:', response.headers);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-
+      
       this.password_error = null;
       this.email_error = null;
       // const raw = JSON.stringify({
@@ -121,6 +112,8 @@ export default {
 
       if ("data" in result) {
         if (result.data.code == 200) {
+          this.email_error = '';
+          this.password_error = '';
           localStorage.setItem("token", result.data.token);
           this.$config.activeToken = result.data.token;
           this.$router.push("/products");

@@ -48,30 +48,9 @@
         <div class="row" > 
           <div class="col-lg-4 col-md-6 mb-4" v-for="product in filteredProducts" :key="product.id">
 
-            <div class="product-card card h-100">
-              <img :src='product.file_url[0]' :alt="product.name"
-                class="product-image">
-
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <span class="product-category"> {{ product.category }} </span>
-                  <span class="product-quantity" :class="getQuantityClass(product.quantity)">
-                    {{ product.quantity }} в наличии
-                  </span>
-                </div>
-
-                <h5 class="card-title">{{ product.name }}</h5>
-
-                <div class="d-flex justify-content-between align-items-center mt-3">
-                  <span class="product-price">{{ product.price }} ₽</span>
-                  <button class="btn btn-add-to-cart">
-                    <i class="fas fa-shopping-cart me-2"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
+            <card-product :product="product"></card-product>
           </div>
-        <app-pagination :count="count" @active_page="loadProducts"></app-pagination>
+        <pagination :count="count" @active_page="loadProducts"></pagination>
         </div>
         <!-- Состояние при отсутствии товаров -->
         <!-- <div class="empty-state" v-else>
@@ -89,7 +68,8 @@
 </template>
 
 <script>
-import AppPagination from './AppPagination.vue';
+import CardProduct from '../components/CardProduct.vue';
+import Pagination from '../components/Pagination.vue';
 
 
 export default {
@@ -100,14 +80,9 @@ export default {
     }
   },
   methods: {
-    getQuantityClass(quantity) {
-      if (quantity > 100) return 'quantity-high';
-      if (quantity > 10) return 'quantity-medium';
-      return 'quantity-low';
-    },
 
     async loadProducts(page = 1) {
-      let count = 4 // Здесь меняется количество вывода на странницу продуктов за раз
+      let count = 3 // Здесь меняется количество вывода на странницу продуктов за раз
       const raw = JSON.stringify({
           "page": page,
           "count": count
@@ -138,7 +113,8 @@ export default {
     this.loadProducts()
   },
   components: {
-    AppPagination
+    Pagination,
+    CardProduct
   },
 }
 </script>

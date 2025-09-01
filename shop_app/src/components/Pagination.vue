@@ -81,7 +81,6 @@ export default {
             return false;
         },
         backward_button() {
-            console.log(this.active_page)
             if (this.active_page == 1) {
                 return true;
             }

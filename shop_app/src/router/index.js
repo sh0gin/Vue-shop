@@ -1,15 +1,19 @@
-import AppProducts from '../AppProducts.vue';
-import AppLogin from '../AppLogin.vue';
-import AppRegister from '../AppRegister.vue';
+import Products from '../view/Products.vue';
+import Login from '../view/Login.vue';
+import Register from '../view/Register.vue';
+import Basket from '../view/Basket.vue';
+import Order from '../view/Order.vue';
 
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    {path: '/login', component: AppLogin, alias: "/"},
-    {path: '/register', component: AppRegister},
-    {path: '/products', component: AppProducts}
+    {path: '/login', component: Login, alias: "/"},
+    {path: '/register', component: Register},
+    {path: '/products', component: Products},
+    {path: '/basket', component: Basket},
+    {path: '/order', component: Order}
   ],
   linkActiveClass: 'active',
   // linkExactActiveClass: 'active'

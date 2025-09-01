@@ -1,6 +1,6 @@
 <template>
   <div>
-    <app-header></app-header>
+    <header-origin></header-origin>
     <!-- <app-register></app-register> -->
     <!-- <app-login></app-login> -->
     <router-view></router-view>
@@ -9,14 +9,12 @@
 
 <script>
 
-import AppLogin from './AppLogin.vue';
-import AppRegister from './AppRegister.vue'
-import AppHeader from './AppHeader.vue'
+import HeaderOrigin from './components/HeaderOrigin.vue';
 export default {
   data() {
 
   },
-  components: {AppRegister, AppLogin, AppHeader}
+  components: {HeaderOrigin}
 }
 </script>
 

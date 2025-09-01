@@ -20,8 +20,14 @@
             <li class="nav-item" v-if="!this.$config.activeToken">
               <router-link class="nav-link" to="/register">Регистрация</router-link>
             </li>
-            <li class="nav-item" v-if="!this.$config.activeToken">
+            <li class="nav-item">
               <router-link class="nav-link" to="/products">Товары </router-link>
+            </li>
+            <li class="nav-item" v-if="this.$config.activeToken">
+              <router-link class="nav-link" to="/basket">Корзина </router-link>
+            </li>
+            <li class="nav-item" v-if="this.$config.activeToken">
+              <router-link class="nav-link" to="/order">Заказы </router-link>
             </li>
             <li class="nav-item" v-if="this.$config.activeToken">
               <a class="nav-link" @click="logout">Выход</a>
@@ -46,7 +52,7 @@ export default {
         redirect: "follow",
       };
 
-      let result = await fetch(`${this.$config.apiUrl}api/logout`, requestOptions);
+      await fetch(`${this.$config.apiUrl}api/logout`, requestOptions);
       this.$config.activeToken = null;
       localStorage.removeItem('token');
       this.$router.push('/login');
@@ -66,7 +72,7 @@ export default {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000sdf;
+  z-index: 1000;
   padding: 0.7rem 0;
 }
 
