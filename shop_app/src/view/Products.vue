@@ -11,7 +11,12 @@
             </div>
             <div class="col-md-6">
               <div class="input-group mb-3">
-                <input type="text" class="form-control search-box" placeholder="Поиск товаров..." v-model="searchQuery">
+                <input
+                  type="text"
+                  class="form-control search-box"
+                  placeholder="Поиск товаров..."
+                  v-model="searchQuery"
+                />
                 <span class="input-group-text">
                   <i class="fas fa-search"></i>
                 </span>
@@ -45,55 +50,55 @@
 
         <!-- Список товаров -->
         <!-- // v-if="filteredProducts.length" -->
-        <div class="row" > 
-          <div class="col-lg-4 col-md-6 mb-4" v-for="product in filteredProducts" :key="product.id">
-
+        <div class="row">
+          <div
+            class="col-lg-4 col-md-6 mb-4"
+            v-for="product in filteredProducts"
+            :key="product.id"
+          >
             <card-product :product="product"></card-product>
           </div>
-        <pagination :count="count" @active_page="loadProducts"></pagination>
+          <pagination :count="count" @active_page="loadProducts"></pagination>
         </div>
         <!-- Состояние при отсутствии товаров -->
         <!-- <div class="empty-state" v-else>
           <i class="fas fa-search fa-3x text-muted mb-3"></i>
           <h4>Товары не найдены</h4>
           <p class="text-muted">Попробуйте изменить параметры поиска или фильтры</p> -->
-          <!-- <button class="btn btn-primary" @click="clearFilters">
+        <!-- <button class="btn btn-primary" @click="clearFilters">
             Сбросить фильтры
           </button> -->
         <!-- </div> -->
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
-import CardProduct from '../components/CardProduct.vue';
-import Pagination from '../components/Pagination.vue';
-
+import CardProduct from "../components/CardProduct.vue";
+import Pagination from "../components/Pagination.vue";
 
 export default {
   data() {
     return {
       filteredProducts: null,
       count: null,
-    }
+    };
   },
   methods: {
-
     async loadProducts(page = 1) {
-      let count = 3 // Здесь меняется количество вывода на странницу продуктов за раз
+      let count = 6; // Здесь меняется количество вывода на странницу продуктов за раз
       const raw = JSON.stringify({
-          "page": page,
-          "count": count
+        page: page,
+        count: count,
       });
 
       const response = await fetch(`${this.$config.apiUrl}api/products`, {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-          },
-          body: raw,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: raw,
       });
       if (response.ok) {
         let result = await response.json();
@@ -101,22 +106,20 @@ export default {
         // this.totalCount = this.filteredProducts.data.totalCount;
         this.filteredProducts = result.data.products;
         this.count = Math.ceil(result.data.totalCount / count);
-
       }
-      
-    }
+    },
   },
   beforeCreate() {
-    this.$config.activeToken = localStorage.getItem('token');
+    this.$config.activeToken = localStorage.getItem("token");
   },
   created() {
-    this.loadProducts()
+    this.loadProducts();
   },
   components: {
     Pagination,
-    CardProduct
+    CardProduct,
   },
-}
+};
 </script>
 
 <style>
@@ -128,10 +131,14 @@ export default {
 }
 
 .products-wrapper {
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    var(--secondary-color) 100%
+  );
   min-height: 100vh;
   padding: 85px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .products-header {

@@ -30,6 +30,9 @@
               <router-link class="nav-link" to="/order">Заказы </router-link>
             </li>
             <li class="nav-item" v-if="this.$config.activeToken">
+              <router-link class="nav-link" to="/balance">Баланс </router-link>
+            </li>
+            <li class="nav-item" v-if="this.$config.activeToken">
               <a class="nav-link" @click="logout">Выход</a>
             </li>
           </ul>
@@ -54,12 +57,12 @@ export default {
 
       await fetch(`${this.$config.apiUrl}api/logout`, requestOptions);
       this.$config.activeToken = null;
-      localStorage.removeItem('token');
-      this.$router.push('/login');
+      localStorage.removeItem("token");
+      this.$router.push("/login");
     },
   },
   beforeCreate() {
-    this.$config.activeToken = localStorage.getItem('token');
+    this.$config.activeToken = localStorage.getItem("token");
   },
 };
 </script>

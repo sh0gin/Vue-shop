@@ -1,108 +1,65 @@
 <template>
-  <div class="orders-container my-comp">
-    <div class="row">
-      <!-- Левая колонка - Меню истории заказов -->
-      <div class="col-lg-3">
-        <div class="orders-menu">
-          <div class="menu-header">
-            <h4><i class="fas fa-history me-2"></i>История заказов</h4>
-          </div>
-
-          <div class="menu-stats">
-            <div class="stat-item">
-              <div class="stat-icon">
-                <i class="fas fa-shopping-cart"></i>
-              </div>
-              <div class="stat-info">
-                <span class="stat-label">Всего заказов</span>
-                <span class="stat-value">8</span>
-              </div>
+    <div class="order-card">
+        <div class="order-header">
+            <div class="order-info">
+                <h4 class="order-number">Заказ #324567</h4>
+                <span class="order-date">15 декабря 2024</span>
             </div>
-            <div class="stat-item">
-              <div class="stat-icon">
-                <i class="fas fa-check-circle"></i>
-              </div>
-              <div class="stat-info">
-                <span class="stat-label">Завершённые</span>
-                <span class="stat-value">5</span>
-              </div>
+            <div class="order-status status-delivered">
+                Доставлен
             </div>
-            <div class="stat-item">
-              <div class="stat-icon">
-                <i class="fas fa-clock"></i>
-              </div>
-              <div class="stat-info">
-                <span class="stat-label">В процессе</span>
-                <span class="stat-value">2</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="menu-filters">
-            <h6>Фильтры:</h6>
-            <div class="filter-option active">
-              <i class="fas fa-list me-2"></i>Все заказы
-            </div>
-            <div class="filter-option"><i class="fas fa-truck me-2"></i>Доставленные</div>
-            <div class="filter-option"><i class="fas fa-clock me-2"></i>В обработке</div>
-            <div class="filter-option"><i class="fas fa-times me-2"></i>Отменённые</div>
-          </div>
         </div>
-      </div>
 
-      <!-- Правая колонка - Список заказов -->
-      <div class="col-lg-9">
-        <div class="orders-content">
-          <!-- Заголовок -->
-          <div class="content-header mb-4">
-            <h1 class="orders-title">
-              <i class="fas fa-shopping-bag me-3"></i>Мои заказы
-            </h1>
-            <p class="orders-subtitle">История всех ваших покупок</p>
-          </div>
+        <div class="order-content">
+            <div class="order-items">
+                <div class="order-item">
+                    <img src="https://via.placeholder.com/300" class="item-image" />
+                    <div class="item-info">
+                        <h6 class="item-name">Смартфон Samsung Galaxy S23</h6>
+                        <p class="item-details">Черный, 256 ГБ</p>
+                    </div>
+                    <div class="item-quantity">×1</div>
+                    <div class="item-price">64 990 ₽</div>
+                </div>
+                <div class="order-item">
+                    <img src="https://via.placeholder.com/300" class="item-image" />
+                    <div class="item-info">
+                        <h6 class="item-name">Чехол защитный</h6>
+                        <p class="item-details">Прозрачный, силиконовый</p>
+                    </div>
+                    <div class="item-quantity">×1</div>
+                    <div class="item-price">1 490 ₽</div>
+                </div>
+            </div>
 
-          <!-- Список заказов -->
-          <div class="orders-list" v-if="orders">
-            <cart-orders></cart-orders>
-          </div>
+            <div class="order-summary">
+                <div class="summary-row">
+                    <span>Товары (2):</span>
+                    <strong>66 480 ₽</strong>
+                </div>
+                <div class="summary-row">
+                    <span>Доставка:</span>
+                    <strong>Бесплатно</strong>
+                </div>
+                <div class="summary-row total">
+                    <span>Итого:</span>
+                    <strong class="total-price">66 480 ₽</strong>
+                </div>
+            </div>
+        </div>
 
-          <div class="empty-orders orders-list" v-else>
-            <h3 class="not-order">У вас пока нет заказов</h3>
-            <p class="empty-text not-order">
-              Совершите первую покупку и она появится здесь
-            </p>
-            <button class="btn btn-primary btn-lg">
-              <i class="fas fa-shopping-cart me-2"></i>Перейти к покупкам
+        <div class="order-actions">
+            <button class="btn btn-outline-primary btn-sm">
+                <i class="fas fa-eye me-2"></i>Подробнее
             </button>
-          </div>
+            <button class="btn btn-outline-success btn-sm">
+                <i class="fas fa-redo me-2"></i>Повторить заказ
+            </button>
         </div>
-      </div>
     </div>
-  </div>
 </template>
 
-<script>
-import CartOrders from "@/components/CartOrders.vue";
-
-export default {
-  name: "UserOrders",
-  data() {
-    return {
-      order: null,
-    };
-  },
-  methods: {},
-  components: {
-    CartOrders,
-  },
-};
-</script>
-
 <style scoped>
-.not-order {
-  color: white;
-}
-
 .orders-container {
   padding: 2rem 0;
   background: none;

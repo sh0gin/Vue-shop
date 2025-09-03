@@ -10,9 +10,17 @@
           </div>
 
           <!-- Общие ошибки -->
-          <div v-if="general_error" class="alert alert-error alert-dismissible fade show mb-4" role="alert">
+          <div
+            v-if="general_error"
+            class="alert alert-error alert-dismissible fade show mb-4"
+            role="alert"
+          >
             {{ general_error }}
-            <button type="button" class="btn-close" @click="general_error = null"></button>
+            <button
+              type="button"
+              class="btn-close"
+              @click="general_error = null"
+            ></button>
           </div>
 
           <form @submit.prevent="login">
@@ -21,7 +29,12 @@
                 <div class="input-icon">
                   <i class="fas fa-envelope"></i>
                 </div>
-                <input type="email" class="form-control ps-5" placeholder="Email" v-model="email" />
+                <input
+                  type="email"
+                  class="form-control ps-5"
+                  placeholder="Email"
+                  v-model="email"
+                />
               </div>
               <div v-if="email_error" class="error-message mt-2">
                 <small>{{ email_error }}</small>
@@ -33,8 +46,12 @@
                 <div class="input-icon">
                   <i class="fas fa-lock"></i>
                 </div>
-                <input :type="showPassword ? 'text' : 'password'" class="form-control ps-5" placeholder="Пароль"
-                  v-model="password" />
+                <input
+                  :type="showPassword ? 'text' : 'password'"
+                  class="form-control ps-5"
+                  placeholder="Пароль"
+                  v-model="password"
+                />
                 <span class="password-toggle" @click="showPassword = !showPassword">
                   <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
                 </span>
@@ -44,8 +61,18 @@
               </div>
             </div>
 
-            <button type="submit" class="btn btn-login w-100 py-2 mb-3" :disabled="loading" @click.prevent="login">
-              <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <button
+              type="submit"
+              class="btn btn-login w-100 py-2 mb-3"
+              :disabled="loading"
+              @click.prevent="login"
+            >
+              <span
+                v-if="loading"
+                class="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
               {{ loading ? "Вход..." : "Войти" }}
             </button>
 
@@ -67,11 +94,11 @@ export default {
       password: null,
       email_error: null,
       password_error: null,
+      showPassword: true,
     };
   },
   methods: {
     async login() {
-      
       this.password_error = null;
       this.email_error = null;
       // const raw = JSON.stringify({
@@ -112,8 +139,8 @@ export default {
 
       if ("data" in result) {
         if (result.data.code == 200) {
-          this.email_error = '';
-          this.password_error = '';
+          this.email_error = "";
+          this.password_error = "";
           localStorage.setItem("token", result.data.token);
           this.$config.activeToken = result.data.token;
           this.$router.push("/products");
@@ -126,9 +153,9 @@ export default {
           // if ("email" in result.error.error) {
           //   this.email_error = result.error.error["email"][0];
           // }
-          Object.keys(result.error.error).forEach((key_word) =>
-            this[`${key_word}_error`] = result.error.error[key_word][0]
-          )
+          Object.keys(result.error.error).forEach(
+            (key_word) => (this[`${key_word}_error`] = result.error.error[key_word][0])
+          );
         } else {
           this.password_error = "Ошибка в логине или пароле";
         }

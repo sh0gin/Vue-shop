@@ -8,24 +8,40 @@
         </div>
 
         <form @submit.prevent="registation">
-
           <div class="row">
-
             <div class="col-md-6 mb-3">
-              <div class="form-floating" :class="{ 'has_error' : first_name_error }">
-                <input type="text" class="form-control" id="firstName" placeholder="Имя" v-model="firstName" />
+              <div class="form-floating" :class="{ has_error: first_name_error }">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="firstName"
+                  placeholder="Имя"
+                  v-model="firstName"
+                />
                 <label for="firstName"><i class="fas fa-user me-2"></i>Имя</label>
-                <div :class="{ 'has-error error-message': first_name_error }" v-if="first_name_error">
+                <div
+                  :class="{ 'has-error error-message': first_name_error }"
+                  v-if="first_name_error"
+                >
                   <small> {{ this.first_name_error }} </small>
                 </div>
               </div>
             </div>
 
             <div class="col-md-6 mb-3">
-              <div class="form-floating" :class="{ 'has_error' : last_name_error }">
-                <input type="text" class="form-control" id="lastName" placeholder="Фамилия" v-model="lastName" />
+              <div class="form-floating" :class="{ has_error: last_name_error }">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="lastName"
+                  placeholder="Фамилия"
+                  v-model="lastName"
+                />
                 <label for="lastName"><i class="fas fa-user-tag me-2"></i>Фамилия</label>
-                <div :class="{ 'has-error error-message': last_name_error }" v-if="last_name_error">
+                <div
+                  :class="{ 'has-error error-message': last_name_error }"
+                  v-if="last_name_error"
+                >
                   <small> {{ this.last_name_error }} </small>
                 </div>
               </div>
@@ -33,8 +49,14 @@
           </div>
 
           <div class="mb-3">
-            <div class="form-floating" :class="{ 'has_error' : email_error }">
-              <input type="email" class="form-control" id="email" placeholder="Email" v-model="email" />
+            <div class="form-floating" :class="{ has_error: email_error }">
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                placeholder="Email"
+                v-model="email"
+              />
 
               <label for="email"><i class="fas fa-envelope me-2"></i>Email</label>
               <div :class="{ 'has-error error-message': email_error }" v-if="email_error">
@@ -44,10 +66,19 @@
           </div>
 
           <div class="mb-4">
-            <div class="form-floating" :class="{ 'has_error' : password_error }">
-              <input type="password" class="form-control" id="password" placeholder="Пароль" v-model="password" />
+            <div class="form-floating" :class="{ has_error: password_error }">
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                placeholder="Пароль"
+                v-model="password"
+              />
               <label for="password"><i class="fas fa-lock me-2"></i>Пароль</label>
-              <div :class="{ 'has-error error-message': password_error }" v-if="password_error" >
+              <div
+                :class="{ 'has-error error-message': password_error }"
+                v-if="password_error"
+              >
                 <small> {{ this.password_error }} </small>
               </div>
             </div>
@@ -126,9 +157,9 @@ export default {
           //     // console.log(this[key_word + "_error"]);
           //     // this.key_word = result.error.error[key_word][0]
           // })
-          Object.keys(result.error.error).forEach((key_word) =>
-            this[`${key_word}_error`] = result.error.error[key_word][0]
-          )
+          Object.keys(result.error.error).forEach(
+            (key_word) => (this[`${key_word}_error`] = result.error.error[key_word][0])
+          );
         }
       }
     },
@@ -140,8 +171,6 @@ export default {
 </script>
 
 <style scoped>
-
-
 .form-floating.has_error .form-control {
   border-color: #dc3545;
 }
@@ -170,12 +199,12 @@ export default {
   box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.2);
 }
 
-.form-floating>label {
+.form-floating > label {
   padding-left: 40px;
 }
 
-.form-floating>.form-control:focus~label,
-.form-floating>.form-control:not(:placeholder-shown)~label {
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label {
   padding-left: 15px;
 }
 

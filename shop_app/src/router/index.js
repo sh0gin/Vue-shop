@@ -2,6 +2,7 @@ import Products from '../view/Products.vue';
 import Login from '../view/Login.vue';
 import Register from '../view/Register.vue';
 import Basket from '../view/Basket.vue';
+import Balance from '../view/Balance.vue';
 import Order from '../view/Order.vue';
 
 import { createRouter, createWebHistory } from 'vue-router'
@@ -13,7 +14,8 @@ const router = createRouter({
     {path: '/register', component: Register},
     {path: '/products', component: Products},
     {path: '/basket', component: Basket},
-    {path: '/order', component: Order}
+    {path: '/order', component: Order},
+    {path: '/balance', component: Balance}
   ],
   linkActiveClass: 'active',
   // linkExactActiveClass: 'active'
