@@ -1,142 +1,23 @@
 <template>
-  <div class="orders-container my-comp">
-    <div class="row">
-      <!-- Левая колонка - Меню истории заказов -->
-      <div class="col-lg-3">
-        <div class="orders-menu">
-          <div class="menu-header">
-            <h4><i class="fas fa-history me-2"></i>История заказов</h4>
-          </div>
-
-          <div class="menu-stats">
-            <div class="stat-item">
-              <div class="stat-icon">
-                <i class="fas fa-shopping-cart"></i>
-              </div>
-              <div class="stat-info">
-                <span class="stat-label">Всего заказов</span>
-                <span class="stat-value">8</span>
-              </div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-icon">
-                <i class="fas fa-check-circle"></i>
-              </div>
-              <div class="stat-info">
-                <span class="stat-label">Завершённые</span>
-                <span class="stat-value">5</span>
-              </div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-icon">
-                <i class="fas fa-clock"></i>
-              </div>
-              <div class="stat-info">
-                <span class="stat-label">В процессе</span>
-                <span class="stat-value">2</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="menu-filters">
-            <h6>Фильтры:</h6>
-            <div class="filter-option active">
-              <i class="fas fa-list me-2"></i>Все заказы
-            </div>
-            <div class="filter-option"><i class="fas fa-truck me-2"></i>Доставленные</div>
-            <div class="filter-option"><i class="fas fa-clock me-2"></i>В обработке</div>
-            <div class="filter-option"><i class="fas fa-times me-2"></i>Отменённые</div>
-          </div>
-        </div>
+  <div class="order-items">
+    <div class="order-item">
+      <img :src="image[0]" class="item-image" />
+      <div class="item-info">
+        <h6 class="item-name">{{ name }}</h6>
       </div>
-
-      <!-- Правая колонка - Список заказов -->
-      <div class="col-lg-9">
-        <div class="orders-content">
-          <!-- Заголовок -->
-          <div class="content-header mb-4">
-            <h1 class="orders-title">
-              <i class="fas fa-shopping-bag me-3"></i>Мои заказы
-            </h1>
-            <p class="orders-subtitle">История всех ваших покупок</p>
-          </div>
-
-          <!-- Список заказов -->
-          <div class="orders-list" v-if="order && !loader" v-for="orders in order">
-            <cart-orders
-              :code="orders.track_code"
-              :id="orders.id"
-              :products_in_order="orders.products"
-              :general_price="orders.general_price"
-              :status="orders.status"
-              :data="orders.data_of_creation"
-              :image="orders.image"
-            ></cart-orders>
-          </div>
-
-          <div class="empty-orders orders-list" v-else-if="!order">
-            <h3 class="not-order">У вас пока нет заказов</h3>
-            <p class="empty-text not-order">
-              Совершите первую покупку и она появится здесь
-            </p>
-            <button class="btn btn-primary btn-lg">
-              <i class="fas fa-shopping-cart me-2"></i>Перейти к покупкам
-            </button>
-          </div>
-          <div class="loading-container" v-else>
-            <div class="text-center">
-              <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Загрузка...</span>
-              </div>
-              <p class="mt-2">Загрузка данных...</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="item-quantity">×{{ count }}</div>
+      <div class="item-price">{{ price }} ₽</div>
     </div>
   </div>
 </template>
 
 <script>
-import CartOrders from "@/components/CartOrders.vue";
-
 export default {
-  name: "UserOrders",
-  data() {
-    return {
-      order: false,
-      loader: true,
-    };
-  },
-  methods: {
-    async load() {
-      const response = await fetch(`${this.$config.apiUrl}api/orders/get-orders`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${this.$config.activeToken}`,
-        },
-      });
-      this.order = await response.json();
-      this.order = this.order.data;
-    },
-  },
-  components: {
-    CartOrders,
-  },
-  async created() {
-    await this.load();
-    console.log(this.order);
-    this.loader = false;
-  },
+  props: ["name", "count", "price", "image"],
 };
 </script>
 
 <style scoped>
-.not-order {
-  color: white;
-}
-
 .orders-container {
   padding: 2rem 0;
   background: none;
@@ -310,6 +191,7 @@ export default {
   border-radius: 20px;
   padding: 2rem;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
 }
 
 .order-header {

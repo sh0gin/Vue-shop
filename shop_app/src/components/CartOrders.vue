@@ -1,63 +1,61 @@
 <template>
-    <div class="order-card">
-        <div class="order-header">
-            <div class="order-info">
-                <h4 class="order-number">Заказ #324567</h4>
-                <span class="order-date">15 декабря 2024</span>
-            </div>
-            <div class="order-status status-delivered">
-                Доставлен
-            </div>
-        </div>
-
-        <div class="order-content">
-            <div class="order-items">
-                <div class="order-item">
-                    <img src="https://via.placeholder.com/300" class="item-image" />
-                    <div class="item-info">
-                        <h6 class="item-name">Смартфон Samsung Galaxy S23</h6>
-                        <p class="item-details">Черный, 256 ГБ</p>
-                    </div>
-                    <div class="item-quantity">×1</div>
-                    <div class="item-price">64 990 ₽</div>
-                </div>
-                <div class="order-item">
-                    <img src="https://via.placeholder.com/300" class="item-image" />
-                    <div class="item-info">
-                        <h6 class="item-name">Чехол защитный</h6>
-                        <p class="item-details">Прозрачный, силиконовый</p>
-                    </div>
-                    <div class="item-quantity">×1</div>
-                    <div class="item-price">1 490 ₽</div>
-                </div>
-            </div>
-
-            <div class="order-summary">
-                <div class="summary-row">
-                    <span>Товары (2):</span>
-                    <strong>66 480 ₽</strong>
-                </div>
-                <div class="summary-row">
-                    <span>Доставка:</span>
-                    <strong>Бесплатно</strong>
-                </div>
-                <div class="summary-row total">
-                    <span>Итого:</span>
-                    <strong class="total-price">66 480 ₽</strong>
-                </div>
-            </div>
-        </div>
-
-        <div class="order-actions">
-            <button class="btn btn-outline-primary btn-sm">
-                <i class="fas fa-eye me-2"></i>Подробнее
-            </button>
-            <button class="btn btn-outline-success btn-sm">
-                <i class="fas fa-redo me-2"></i>Повторить заказ
-            </button>
-        </div>
+  <div class="order-card">
+    <div class="order-header">
+      <div class="order-info">
+        <h4 class="order-number">Заказ #{{ code }}</h4>
+        <span class="order-date">Оформлен {{ data }}</span>
+      </div>
+      <div class="order-status status-delivered">{{ status }}</div>
     </div>
+
+    <div class="order-content">
+      <div class="order-items" v-for="items in products_in_order">
+        <cart-product-order
+          :name="items.product"
+          :count="items.count"
+          :price="items.price"
+          :image="items.image"
+        ></cart-product-order>
+      </div>
+
+      <div class="order-summary">
+        <div class="summary-row">
+          <span>Товары:</span>
+          <strong>{{ general_price.toLocaleString() }} ₽</strong>
+        </div>
+        <!-- <div class="summary-row">
+          <span>Доставка:</span>
+          <strong>Бесплатно</strong>
+        </div> -->
+        <div class="summary-row total">
+          <span>Итого:</span>
+          <strong class="total-price">{{ general_price.toLocaleString() }} ₽</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="order-actions">
+      <button class="btn btn-outline-primary btn-sm">
+        <i class="fas fa-eye me-2"></i>Подробнее
+      </button>
+      <button class="btn btn-outline-success btn-sm">
+        <i class="fas fa-redo me-2"></i>Повторить заказ
+      </button>
+    </div> -->
+  </div>
 </template>
+
+<script>
+import CartProductOrder from "@/components/CartProductOrder.vue";
+
+export default {
+  data() {
+    return {};
+  },
+  props: ["code", "id", "general_price", "status", "data", "products_in_order", "image"],
+  components: { CartProductOrder },
+};
+</script>
 
 <style scoped>
 .orders-container {
@@ -233,6 +231,7 @@
   border-radius: 20px;
   padding: 2rem;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
 }
 
 .order-header {
