@@ -37,7 +37,7 @@
                 />
               </div>
               <div v-if="email_error" class="error-message mt-2">
-                <small>{{ email_error }}</small>
+                <small class="red">{{ email_error }}</small>
               </div>
             </div>
 
@@ -57,7 +57,7 @@
                 </span>
               </div>
               <div v-if="password_error" class="error-message mt-2">
-                <small>{{ password_error }}</small>
+                <small class="red">{{ password_error }}</small>
               </div>
             </div>
 
@@ -143,6 +143,8 @@ export default {
           this.password_error = "";
           localStorage.setItem("token", result.data.token);
           this.$config.activeToken = result.data.token;
+          this.$config.userStatus = result.data.user.role;
+          console.log(this.$config.userStatus);
           this.$router.push("/products");
         }
       } else {
@@ -176,6 +178,12 @@ body {
   align-items: center;
   justify-content: center;
   padding: 20px;
+}
+
+
+
+.red {
+  color: red;
 }
 
 .login-container {

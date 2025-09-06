@@ -5,7 +5,9 @@
         <h4 class="order-number">Заказ #{{ code }}</h4>
         <span class="order-date">Оформлен {{ data }}</span>
       </div>
-      <div class="order-status status-delivered">{{ status }}</div>
+      <div class="order-status" :class="status_active">
+        {{ status }}
+      </div>
     </div>
 
     <div class="order-content">
@@ -50,10 +52,21 @@ import CartProductOrder from "@/components/CartProductOrder.vue";
 
 export default {
   data() {
-    return {};
+    return {
+      status_active: "",
+    };
   },
   props: ["code", "id", "general_price", "status", "data", "products_in_order", "image"],
   components: { CartProductOrder },
+  mounted() {
+    if (this.status == "Отмена") {
+      this.status_active = "status-cancelled";
+    } else if (this.status == "Заказ в обработке") {
+      this.status_active = "status-processing";
+    } else {
+      this.status_active = "status-delivered";
+    }
+  },
 };
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="orders-container my-comp">
+  <div class="orders-container my-comp" v-if="this.$config.activeToken">
     <div class="row">
       <!-- Левая колонка - Меню истории заказов -->
       <div class="col-lg-3">
@@ -8,14 +8,14 @@
             <h4><i class="fas fa-history me-2"></i>История заказов</h4>
           </div>
 
-          <div class="menu-stats">
+          <div class="menu-stats" v-if="status">
             <div class="stat-item">
               <div class="stat-icon">
                 <i class="fas fa-shopping-cart"></i>
               </div>
               <div class="stat-info">
                 <span class="stat-label">Всего заказов</span>
-                <span class="stat-value">8</span>
+                <span class="stat-value">{{ status.total }}</span>
               </div>
             </div>
             <div class="stat-item">
@@ -24,7 +24,7 @@
               </div>
               <div class="stat-info">
                 <span class="stat-label">Завершённые</span>
-                <span class="stat-value">5</span>
+                <span class="stat-value">{{ status.approved }}</span>
               </div>
             </div>
             <div class="stat-item">
@@ -32,20 +32,35 @@
                 <i class="fas fa-clock"></i>
               </div>
               <div class="stat-info">
-                <span class="stat-label">В процессе</span>
-                <span class="stat-value">2</span>
+                <span class="stat-label">Отменённые</span>
+                <span class="stat-value">{{ status.denied }}</span>
               </div>
+            </div>
+          </div>
+          <div class="loading-container" v-else>
+            <div class="text-center">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Загрузка...</span>
+              </div>
+              <p class="mt-2">Загрузка данных...</p>
             </div>
           </div>
 
           <div class="menu-filters">
             <h6>Фильтры:</h6>
-            <div class="filter-option active">
+            <div class="filter-option" :class="{ active: active == 4 }" @click="load(4)">
               <i class="fas fa-list me-2"></i>Все заказы
             </div>
-            <div class="filter-option"><i class="fas fa-truck me-2"></i>Доставленные</div>
-            <div class="filter-option"><i class="fas fa-clock me-2"></i>В обработке</div>
-            <div class="filter-option"><i class="fas fa-times me-2"></i>Отменённые</div>
+
+            <div class="filter-option" :class="{ active: active == 1 }" @click="load(1)">
+              <i class="fas fa-truck me-2"></i>Доставленные
+            </div>
+            <div class="filter-option" :class="{ active: active == 2 }" @click="load(2)">
+              <i class="fas fa-truck me-2"></i>В обработке
+            </div>
+            <div class="filter-option" :class="{ active: active == 3 }" @click="load(3)">
+              <i class="fas fa-times me-2"></i>Отменённые
+            </div>
           </div>
         </div>
       </div>
@@ -95,6 +110,54 @@
       </div>
     </div>
   </div>
+  <div class="unauth-container" v-else-if="!this.$config.activeToken">
+    <div class="unauth-header">
+      <div class="icon-wrapper">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <h3>Требуется авторизация</h3>
+      <p>Чтобы получить доступ к корзине, пожалуйста, войдите в систему</p>
+    </div>
+
+    <div class="unauth-body">
+      <div class="text-center mb-4">
+        <h4>Вы не авторизованы</h4>
+        <p class="text-muted">
+          Авторизуйтесь, чтобы получить доступ ко всем возможностям
+        </p>
+      </div>
+
+      <div class="benefits-list">
+        <h5 class="mb-3">Преимущества авторизации:</h5>
+        <div class="benefit-item">
+          <i class="fas fa-shopping-cart"></i>
+          <span>Сохранение товаров в корзине</span>
+        </div>
+        <div class="benefit-item">
+          <i class="fas fa-truck"></i>
+          <span>Быстрое оформление заказов</span>
+        </div>
+        <div class="benefit-item">
+          <i class="fas fa-percent"></i>
+          <span>Персональные скидки и акции</span>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <div class="d-flex justify-content-center mb-3">
+          <button class="btn btn-login" @click="goToLogin">
+            <router-link class="fas fa-sign-in-alt me-2" to="/login">Войти</router-link>
+          </button>
+
+          <button class="btn btn-login" @click="goToRegister">
+            <router-link class="fas fa-sign-in-alt me-2" to="/register"
+              >Регистрация</router-link
+            >
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -106,18 +169,28 @@ export default {
     return {
       order: false,
       loader: true,
+      status: null,
+      active: 4,
     };
   },
   methods: {
-    async load() {
+    async load(status) {
+      this.active = status;
+      console.log(this.active);
+      const raw = JSON.stringify({
+        status_id: status,
+      });
       const response = await fetch(`${this.$config.apiUrl}api/orders/get-orders`, {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${this.$config.activeToken}`,
         },
+        body: raw,
       });
+
       this.order = await response.json();
+      this.status = this.order.totalStatus;
       this.order = this.order.data;
     },
   },
@@ -125,8 +198,7 @@ export default {
     CartOrders,
   },
   async created() {
-    await this.load();
-    console.log(this.order);
+    await this.load(4);
     this.loader = false;
   },
 };

@@ -4,13 +4,14 @@
     <div class="text-center mb-4" style="margin-top: 67px">
       <h1 class="page-title"><i class="fas fa-shopping-cart me-2"></i>Моя корзина</h1>
       <error
-        v-if="activeError"
-        title="Такого товара больше нет в наличии"
-        @dismiss="this.activeError = false"
+        v-if="title"
+        :title="title"
+        :type="type"
+        @dismiss="this.title = false"
       ></error>
     </div>
 
-    <div class="row" v-if="this.$config.activeToken && this.userInfo && this.products">
+    <div class="row" v-if="this.$config.activeToken && this.userInfo && !this.loader">
       <!-- Левая колонка - Данные пользователя -->
       <div class="col-lg-4 mb-4">
         <div class="user-section p-4">
@@ -76,7 +77,9 @@
         <div class="cart-container p-4">
           <div class="d-flex justify-content-between align-items-center mb-4">
             <h3 class="mb-0">Товары в корзине</h3>
-            <span class="badge bg-primary">{{ products.data.totalCount }} товара</span>
+            <span v-if="products" class="badge bg-primary"
+              >{{ products.data.totalCount }} товара</span
+            >
           </div>
 
           <!-- Элементы корзины -->
@@ -87,7 +90,7 @@
                 @minus="minus"
                 @plus="plus"
                 @delete="deleteAll"
-                @error="activeError = true"
+                @error="amount_error"
               ></basket-product>
             </div>
             <!-- Итоги корзины -->
@@ -110,14 +113,16 @@
                 <span class="fs-5">Итого:</span>
                 <strong class="fs-4">{{ products.data.totalSum }} ₽</strong>
               </div>
-              <button class="btn btn-checkout w-100">
-                <i class="fas fa-lock me-2"></i>Перейти к оформлению
+              <button class="btn btn-checkout w-100 text-white" @click="order">
+                <i class="fas fa-lock me-2 conf-my"></i>Оформить заказ
               </button>
             </div>
           </div>
 
           <div v-else>
-            <h1>Товаров нет</h1>
+            <h1>
+              <router-link to="/products">Товаров нет, добавьте же их!</router-link>
+            </h1>
           </div>
         </div>
       </div>
@@ -190,24 +195,54 @@ export default {
       userInfo: null,
       products: null,
       activeError: false,
+      activeSuccess: false,
+      title: "",
+      type: "error",
+      loader: true,
     };
   },
 
   methods: {
+    async order() {
+      const response = await fetch(`${this.$config.apiUrl}api/order`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.$config.activeToken}`,
+        },
+      });
+
+      if (response.ok) {
+        this.title = "Заказ создан";
+        this.type = "success";
+        this.userInfo.balance -= this.products.data.totalSum;
+        this.products = null;
+      } else if (response.status === 403) {
+        this.title = "Чтобы оформить заказ, в корзине должны быть товары";
+        this.type = "error";
+      } else if (response.status === 402) {
+        this.title = "Недостаточно средств";
+        this.type = "error";
+      }
+    },
+    amount_error() {
+      this.title = "Товара больше нет в наличии";
+      this.type = "error";
+    },
     minus(price_for_once_product) {
       this.products.data.totalSum -= price_for_once_product;
       this.products.data.totalCount -= 1;
-      this.activeError = false;
+      this.title = false;
     },
     deleteAll(price_for_this_product, count) {
       this.products.data.totalSum -= price_for_this_product;
       this.products.data.totalCount -= count;
-      this.activeError = false;
+      this.title = false;
     },
     plus(price_for_once_product) {
       this.products.data.totalSum += price_for_once_product;
       this.products.data.totalCount += 1;
-      this.activeError = false;
+      this.title = false;
     },
     async load() {
       const response = await fetch(`${this.$config.apiUrl}api/get-user-info`, {
@@ -228,17 +263,21 @@ export default {
         },
       });
       this.products = await product.json();
-      console.log(this.products);
     },
   },
   async created() {
     await this.load();
+    this.loader = false;
   },
   components: { BasketProduct, Error },
 };
 </script>
 
 <style>
+.conf-my {
+  color: white;
+}
+
 .fa-sign-in-alt {
   color: white;
 }

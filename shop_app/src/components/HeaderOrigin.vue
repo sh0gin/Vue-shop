@@ -32,6 +32,9 @@
             <li class="nav-item" v-if="this.$config.activeToken">
               <router-link class="nav-link" to="/balance">Баланс </router-link>
             </li>
+            <li class="nav-item" v-if="this.$config.userStatus == 'admin'">
+              <router-link class="nav-link" to="/admin">Администрорование </router-link>
+            </li>
             <li class="nav-item" v-if="this.$config.activeToken">
               <a class="nav-link" @click="logout">Выход</a>
             </li>
@@ -57,6 +60,7 @@ export default {
 
       await fetch(`${this.$config.apiUrl}api/logout`, requestOptions);
       this.$config.activeToken = null;
+      this.$config.userStatus = null;
       localStorage.removeItem("token");
       this.$router.push("/login");
     },

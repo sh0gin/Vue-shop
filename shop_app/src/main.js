@@ -10,6 +10,7 @@ const app = createApp(App)
 app.config.globalProperties.$config = reactive({
     apiUrl: 'http://web3-14-08-25.local/',
     activeToken: null,
+    userStatus: null,
 });
 app.use(router)
 
