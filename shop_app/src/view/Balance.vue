@@ -1,5 +1,5 @@
 <template>
-  <div class="topup-container my-comp" v-if="balance">
+  <div class="topup-container my-comp" v-if="balance !== null">
     <!-- Заголовок -->
     <div class="text-center mb-5">
       <h1 class="topup-title"><i class="fas fa-coins me-3"></i>Пополнение баланса</h1>

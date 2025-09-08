@@ -64,9 +64,29 @@ export default {
       localStorage.removeItem("token");
       this.$router.push("/login");
     },
+    async beforeLoad() {
+      this.$config.activeToken = localStorage.getItem("token");
+      if (this.$config.activeToken) {
+        const response = await fetch("http://web3-14-08-25.local/api/user/admin ", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${this.$config.activeToken}`,
+          },
+        });
+        let result = await response.json();
+        if (result) {
+          this.$config.userStatus = "admin";
+        } else {
+          this.$config.userStatus = "user";
+        }
+      } else {
+        this.$config.userStatus = null;
+      }
+    },
   },
-  beforeCreate() {
-    this.$config.activeToken = localStorage.getItem("token");
+  async mounted() {
+    await this.beforeLoad();
   },
 };
 </script>

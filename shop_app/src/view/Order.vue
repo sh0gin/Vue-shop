@@ -52,10 +52,10 @@
               <i class="fas fa-list me-2"></i>Все заказы
             </div>
 
-            <div class="filter-option" :class="{ active: active == 1 }" @click="load(1)">
+            <div class="filter-option" :class="{ active: active == 2 }" @click="load(2)">
               <i class="fas fa-truck me-2"></i>Доставленные
             </div>
-            <div class="filter-option" :class="{ active: active == 2 }" @click="load(2)">
+            <div class="filter-option" :class="{ active: active == 1 }" @click="load(1)">
               <i class="fas fa-truck me-2"></i>В обработке
             </div>
             <div class="filter-option" :class="{ active: active == 3 }" @click="load(3)">

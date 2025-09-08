@@ -54,12 +54,12 @@
       </div>
 
       <!-- Правая колонка - Список заказов -->
-      <div class="col-lg-9 m-t-20">
+      <div class="col-lg-9">
         <div class="admin-content">
           <!-- Заголовок -->
           <div class="content-header mb-4 white">
             <h1 class="admin-title white">
-              <i class="fas fa-tasks me-3 white"></i>Панель администрирования
+              <i class="fas fa-tasks me-3"></i>Панель администрирования
             </h1>
             <p class="admin-subtitle">Управление статусами заказов</p>
           </div>
@@ -73,72 +73,7 @@
                 <span class="badge bg-warning ms-2">3</span>
               </h3>
 
-              <div class="order-card">
-                <div class="order-header">
-                  <div class="order-info">
-                    <h5 class="order-number">Заказ #1001</h5>
-                    <p class="order-date">25 мая 2023, 14:30</p>
-                    <p class="order-customer">Иванов Алексей Петрович</p>
-                  </div>
-                  <div class="order-status status-pending">
-                    <i class="fas fa-clock me-1"></i>В обработке
-                  </div>
-                </div>
-
-                <div class="order-items">
-                  <div class="order-item">
-                    <div class="item-image">
-                      <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <div class="item-info">
-                      <h6 class="item-name">Смартфон Samsung Galaxy S23</h6>
-                      <p class="item-details">Артикул: SMG-S23-BLK</p>
-                    </div>
-                    <div class="item-quantity">x1</div>
-                    <div class="item-price">79 999 ₽</div>
-                  </div>
-                  <div class="order-item">
-                    <div class="item-image">
-                      <i class="fas fa-box"></i>
-                    </div>
-                    <div class="item-info">
-                      <h6 class="item-name">Чехол защитный</h6>
-                      <p class="item-details">Артикул: CHZ-S23-BLK</p>
-                    </div>
-                    <div class="item-quantity">x1</div>
-                    <div class="item-price">1 990 ₽</div>
-                  </div>
-                </div>
-
-                <div class="order-summary">
-                  <div class="summary-row">
-                    <span>Стоимость товаров:</span>
-                    <span>81 989 ₽</span>
-                  </div>
-                  <div class="summary-row">
-                    <span>Доставка:</span>
-                    <span>Бесплатно</span>
-                  </div>
-                  <div class="summary-row total">
-                    <span>Итого:</span>
-                    <span class="total-price">81 989 ₽</span>
-                  </div>
-                </div>
-
-                <div class="order-actions">
-                  <div class="status-selector">
-                    <label class="form-label">Изменить статус:</label>
-                    <select class="form-select">
-                      <option value="processing">Заказ в обработке</option>
-                      <option value="cancelled">Отменён</option>
-                      <option value="ready">Готов к получению</option>
-                    </select>
-                  </div>
-                  <button class="btn btn-primary">
-                    <i class="fas fa-save me-1"></i>Сохранить
-                  </button>
-                </div>
-              </div>
+              <cart-admin-order></cart-admin-order>
 
               <div class="order-card">
                 <div class="order-header">
@@ -196,143 +131,28 @@
                 </div>
               </div>
             </div>
-
-            <!-- Обработанные заказы -->
-            <div class="orders-group">
-              <h3 class="group-title">
-                <i class="fas fa-check-circle text-success me-2"></i>Обработанные заказы
-                <span class="badge bg-success ms-2">2</span>
-              </h3>
-
-              <div class="order-card">
-                <div class="order-header">
-                  <div class="order-info">
-                    <h5 class="order-number">Заказ #1003</h5>
-                    <p class="order-date">23 мая 2023, 16:45</p>
-                    <p class="order-customer">Сидоров Дмитрий Иванович</p>
-                  </div>
-                  <div class="order-status status-ready">
-                    <i class="fas fa-check me-1"></i>Готов к получению
-                  </div>
-                </div>
-
-                <div class="order-items">
-                  <div class="order-item">
-                    <div class="item-image">
-                      <i class="fas fa-headphones"></i>
-                    </div>
-                    <div class="item-info">
-                      <h6 class="item-name">Наушники Sony WH-1000XM5</h6>
-                      <p class="item-details">Артикул: SONY-WH1000XM5</p>
-                    </div>
-                    <div class="item-quantity">x1</div>
-                    <div class="item-price">29 999 ₽</div>
-                  </div>
-                  <div class="order-item">
-                    <div class="item-image">
-                      <i class="fas fa-cable"></i>
-                    </div>
-                    <div class="item-info">
-                      <h6 class="item-name">Кабель USB-C</h6>
-                      <p class="item-details">Артикул: USB-C-2M</p>
-                    </div>
-                    <div class="item-quantity">x2</div>
-                    <div class="item-price">990 ₽</div>
-                  </div>
-                </div>
-
-                <div class="order-summary">
-                  <div class="summary-row">
-                    <span>Стоимость товаров:</span>
-                    <span>31 979 ₽</span>
-                  </div>
-                  <div class="summary-row">
-                    <span>Доставка:</span>
-                    <span>Бесплатно</span>
-                  </div>
-                  <div class="summary-row total">
-                    <span>Итого:</span>
-                    <span class="total-price">31 979 ₽</span>
-                  </div>
-                </div>
-
-                <div class="order-actions">
-                  <div class="status-selector">
-                    <label class="form-label">Изменить статус:</label>
-                    <select class="form-select">
-                      <option value="processing">Заказ в обработке</option>
-                      <option value="cancelled">Отменён</option>
-                      <option value="ready" selected>Готов к получению</option>
-                    </select>
-                  </div>
-                  <button class="btn btn-primary">
-                    <i class="fas fa-save me-1"></i>Сохранить
-                  </button>
-                </div>
-              </div>
-
-              <div class="order-card">
-                <div class="order-header">
-                  <div class="order-info">
-                    <h5 class="order-number">Заказ #1004</h5>
-                    <p class="order-date">22 мая 2023, 09:30</p>
-                    <p class="order-customer">Кузнецова Ольга Викторовна</p>
-                  </div>
-                  <div class="order-status status-cancelled">
-                    <i class="fas fa-times me-1"></i>Отменён
-                  </div>
-                </div>
-
-                <div class="order-items">
-                  <div class="order-item">
-                    <div class="item-image">
-                      <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="item-info">
-                      <h6 class="item-name">Умные часы Apple Watch Series 8</h6>
-                      <p class="item-details">Артикул: AWS8-45MM</p>
-                    </div>
-                    <div class="item-quantity">x1</div>
-                    <div class="item-price">39 999 ₽</div>
-                  </div>
-                </div>
-
-                <div class="order-summary">
-                  <div class="summary-row">
-                    <span>Стоимость товаров:</span>
-                    <span>39 999 ₽</span>
-                  </div>
-                  <div class="summary-row">
-                    <span>Доставка:</span>
-                    <span>Бесплатно</span>
-                  </div>
-                  <div class="summary-row total">
-                    <span>Итого:</span>
-                    <span class="total-price">39 999 ₽</span>
-                  </div>
-                </div>
-
-                <div class="order-actions">
-                  <div class="status-selector">
-                    <label class="form-label">Изменить статус:</label>
-                    <select class="form-select">
-                      <option value="processing">Заказ в обработке</option>
-                      <option value="cancelled" selected>Отменён</option>
-                      <option value="ready">Готов к получению</option>
-                    </select>
-                  </div>
-                  <button class="btn btn-primary">
-                    <i class="fas fa-save me-1"></i>Сохранить
-                  </button>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+import CartAdminOrder from "@/components/CartAdminOrder.vue";
+export default {
+  data() {
+    return {
+      orders: null,
+    };
+  },
+  methods: {
+    async loadData() {},
+  },
+
+  components: { CartAdminOrder },
+};
+</script>
 
 <style>
 /* Изолированные стили для панели администрирования */
@@ -465,8 +285,9 @@
 .admin-orders-container .admin-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #2c3e50;
+  color: #ffffff;
   margin-bottom: 0.5rem;
+  margin-top: 42px;
 }
 
 .admin-orders-container .admin-subtitle {
