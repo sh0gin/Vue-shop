@@ -1,11 +1,11 @@
-import Products from '../view/Products.vue';
-import Login from '../view/Login.vue';
-import Register from '../view/Register.vue';
-import Basket from '../view/Basket.vue';
-import Balance from '../view/Balance.vue';
-import Order from '../view/Order.vue';
-import Admin from '../view/Admin.vue';
-import Error from '../view/Error.vue';
+import Products from '@/view/Products.vue';
+import Login from '@/view/Login.vue';
+import Register from '@/view/Register.vue';
+import Basket from '@/view/Basket.vue';
+import Balance from '@/view/Balance.vue';
+import Order from '@/view/Order.vue';
+import Admin from '@/view/Admin.vue';
+import Error from '@/view/Error.vue';
 
 import { createRouter, createWebHistory } from 'vue-router'
 

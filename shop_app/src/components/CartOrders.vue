@@ -59,7 +59,6 @@ export default {
   props: ["code", "id", "general_price", "status", "data", "products_in_order", "image"],
   components: { CartProductOrder },
   mounted() {
-    console.log(this.status);
     if (this.status == "Отмена") {
       this.status_active = "status-cancelled";
     } else if (this.status == "Заказ в обработке") {

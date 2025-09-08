@@ -90,8 +90,8 @@
 export default {
   data() {
     return {
-      email: null,
-      password: null,
+      email: "admin@mail.ru",
+      password: "Password1",
       email_error: null,
       password_error: null,
       showPassword: true,
@@ -131,22 +131,19 @@ export default {
         redirect: "follow",
       };
 
-      let result = await fetch(`${this.$config.apiUrl}api/login`, requestOptions);
+      let response = await fetch(`${this.$config.apiUrl}api/login`, requestOptions);
       // .then((response) => response.text())
       // .then((result) => console.log(result))
       // .catch((error) => console.error(error));
-      result = await result.json();
 
-      if ("data" in result) {
-        if (result.data.code == 200) {
-          this.email_error = "";
-          this.password_error = "";
-          localStorage.setItem("token", result.data.token);
-          this.$config.activeToken = result.data.token;
-          this.$config.userStatus = result.data.user.role;
-          console.log(this.$config.userStatus);
-          this.$router.push("/products");
-        }
+      let result = await response.json();
+      if (result?.data?.code == 200) {
+        this.email_error = "";
+        this.password_error = "";
+        localStorage.setItem("token", result.data.token);
+        this.$config.activeToken = result.data.token;
+        this.$config.userStatus = result.data.user.role;
+        this.$router.push("/products");
       } else {
         if ("error" in result) {
           // if ("password" in result.error.error) {
@@ -179,8 +176,6 @@ body {
   justify-content: center;
   padding: 20px;
 }
-
-
 
 .red {
   color: red;

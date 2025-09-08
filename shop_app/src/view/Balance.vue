@@ -22,7 +22,7 @@
             </div>
             <div class="balance-info">
               <span class="balance-label">Текущий баланс</span>
-              <span class="balance-amount">{{ balance }} ₽</span>
+              <span class="balance-amount">{{ balance.toLocaleString() }} ₽</span>
             </div>
           </div>
 

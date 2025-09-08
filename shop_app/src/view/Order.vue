@@ -175,8 +175,8 @@ export default {
   },
   methods: {
     async load(status) {
+      this.order = [];
       this.active = status;
-      console.log(this.active);
       const raw = JSON.stringify({
         status_id: status,
       });

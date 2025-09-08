@@ -13,7 +13,7 @@
       <h5 class="card-title">{{ product.name }}</h5>
 
       <div class="d-flex justify-content-between align-items-center mt-3">
-        <span class="product-price">{{ product.price }} ₽</span>
+        <span class="product-price">{{ product.price.toLocaleString() }} ₽</span>
         <button
           class="btn btn-add-to-cart"
           :disabled="product.quantity == 0"

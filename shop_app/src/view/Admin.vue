@@ -1,6 +1,6 @@
 <template>
   <div class="admin-orders-container">
-    <div class="row">
+    <div class="row" v-if="!loader">
       <!-- Левая колонка - Меню управления -->
       <div class="col-lg-3">
         <div class="admin-menu">
@@ -15,7 +15,7 @@
               </div>
               <div class="stat-info">
                 <span class="stat-label">Всего заказов</span>
-                <span class="stat-value">24</span>
+                <span class="stat-value">{{ status.total }}</span>
               </div>
             </div>
             <div class="stat-item">
@@ -24,7 +24,7 @@
               </div>
               <div class="stat-info">
                 <span class="stat-label">Обработанные</span>
-                <span class="stat-value">15</span>
+                <span class="stat-value">{{ status.handled }}</span>
               </div>
             </div>
             <div class="stat-item">
@@ -33,20 +33,20 @@
               </div>
               <div class="stat-info">
                 <span class="stat-label">Необработанные</span>
-                <span class="stat-value">9</span>
+                <span class="stat-value">{{ status.non_handled }}</span>
               </div>
             </div>
           </div>
 
           <div class="menu-filters">
             <h6>Фильтры:</h6>
-            <div class="filter-option active">
+            <div class="filter-option active" @click="loadData(0)">
               <i class="fas fa-list me-2"></i>Все заказы
             </div>
-            <div class="filter-option">
+            <div class="filter-option" @click="loadData(2)">
               <i class="fas fa-check-circle me-2"></i>Обработанные
             </div>
-            <div class="filter-option">
+            <div class="filter-option" @click="loadData(1)">
               <i class="fas fa-clock me-2"></i>Необработанные
             </div>
           </div>
@@ -67,15 +67,15 @@
           <!-- Список заказов -->
           <div class="orders-list">
             <!-- Необработанные заказы -->
-            <div class="orders-group mb-5">
-              <h3 class="group-title">
+            <div class="orders-group mb-5" v-for="value in orders">
+              <!-- <h3 class="group-title">
                 <i class="fas fa-clock text-warning me-2"></i>Необработанные заказы
                 <span class="badge bg-warning ms-2">3</span>
-              </h3>
+              </h3> -->
 
-              <cart-admin-order></cart-admin-order>
+              <cart-admin-order :object="value"></cart-admin-order>
 
-              <div class="order-card">
+              <!-- <div class="order-card">
                 <div class="order-header">
                   <div class="order-info">
                     <h5 class="order-number">Заказ #1002</h5>
@@ -129,10 +129,18 @@
                     <i class="fas fa-save me-1"></i>Сохранить
                   </button>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="loading-container" v-else>
+      <div class="text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Загрузка...</span>
+        </div>
+        <p class="mt-2">Загрузка данных...</p>
       </div>
     </div>
   </div>
@@ -144,10 +152,33 @@ export default {
   data() {
     return {
       orders: null,
+      status: null,
+      loader: true,
+      active: 0,
     };
   },
   methods: {
-    async loadData() {},
+    async loadData(number) {
+      const response = await fetch(
+        `${this.$config.apiUrl}api/order/get-all-order/${number}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${this.$config.activeToken}`,
+          },
+        }
+      );
+      this.active = number;
+      let result = await response.json();
+      this.orders = result.data;
+      console.log(result.data);
+      this.loader = false;
+      this.status = result.status;
+    },
+  },
+  async mounted() {
+    await this.loadData(0);
   },
 
   components: { CartAdminOrder },

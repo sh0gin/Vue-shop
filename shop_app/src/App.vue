@@ -8,14 +8,11 @@
 </template>
 
 <script>
-
-import HeaderOrigin from './components/HeaderOrigin.vue';
+import HeaderOrigin from "./components/HeaderOrigin.vue";
 export default {
-  data() {
-
-  },
-  components: {HeaderOrigin}
-}
+  data() {},
+  components: { HeaderOrigin },
+};
 </script>
 
 <style scoped></style>

@@ -12,6 +12,7 @@ app.config.globalProperties.$config = reactive({
     activeToken: null,
     userStatus: null,
 });
+
 app.use(router)
 
 app.mount('#app')
