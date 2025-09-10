@@ -40,13 +40,25 @@
 
           <div class="menu-filters">
             <h6>Фильтры:</h6>
-            <div class="filter-option active" @click="loadData(0)">
+            <div
+              class="filter-option"
+              :class="{ active: active == 0 }"
+              @click="loadData(0)"
+            >
               <i class="fas fa-list me-2"></i>Все заказы
             </div>
-            <div class="filter-option" @click="loadData(2)">
+            <div
+              class="filter-option"
+              :class="{ active: active == 2 }"
+              @click="loadData(2)"
+            >
               <i class="fas fa-check-circle me-2"></i>Обработанные
             </div>
-            <div class="filter-option" @click="loadData(1)">
+            <div
+              class="filter-option"
+              :class="{ active: active == 1 }"
+              @click="loadData(1)"
+            >
               <i class="fas fa-clock me-2"></i>Необработанные
             </div>
           </div>
@@ -68,68 +80,11 @@
           <div class="orders-list">
             <!-- Необработанные заказы -->
             <div class="orders-group mb-5" v-for="value in orders">
-              <!-- <h3 class="group-title">
-                <i class="fas fa-clock text-warning me-2"></i>Необработанные заказы
-                <span class="badge bg-warning ms-2">3</span>
-              </h3> -->
-
-              <cart-admin-order :object="value"></cart-admin-order>
-
-              <!-- <div class="order-card">
-                <div class="order-header">
-                  <div class="order-info">
-                    <h5 class="order-number">Заказ #1002</h5>
-                    <p class="order-date">24 мая 2023, 10:15</p>
-                    <p class="order-customer">Петрова Мария Сергеевна</p>
-                  </div>
-                  <div class="order-status status-pending">
-                    <i class="fas fa-clock me-1"></i>В обработке
-                  </div>
-                </div>
-
-                <div class="order-items">
-                  <div class="order-item">
-                    <div class="item-image">
-                      <i class="fas fa-laptop"></i>
-                    </div>
-                    <div class="item-info">
-                      <h6 class="item-name">Ноутбук Apple MacBook Air</h6>
-                      <p class="item-details">Артикул: MBA-M2-13</p>
-                    </div>
-                    <div class="item-quantity">x1</div>
-                    <div class="item-price">119 999 ₽</div>
-                  </div>
-                </div>
-
-                <div class="order-summary">
-                  <div class="summary-row">
-                    <span>Стоимость товаров:</span>
-                    <span>119 999 ₽</span>
-                  </div>
-                  <div class="summary-row">
-                    <span>Доставка:</span>
-                    <span>500 ₽</span>
-                  </div>
-                  <div class="summary-row total">
-                    <span>Итого:</span>
-                    <span class="total-price">120 499 ₽</span>
-                  </div>
-                </div>
-
-                <div class="order-actions">
-                  <div class="status-selector">
-                    <label class="form-label">Изменить статус:</label>
-                    <select class="form-select">
-                      <option value="processing">Заказ в обработке</option>
-                      <option value="cancelled">Отменён</option>
-                      <option value="ready">Готов к получению</option>
-                    </select>
-                  </div>
-                  <button class="btn btn-primary">
-                    <i class="fas fa-save me-1"></i>Сохранить
-                  </button>
-                </div>
-              </div> -->
+              <cart-admin-order
+                :object="value"
+                @handler="handler()"
+                @back="back()"
+              ></cart-admin-order>
             </div>
           </div>
         </div>
@@ -151,14 +106,24 @@ import CartAdminOrder from "@/components/CartAdminOrder.vue";
 export default {
   data() {
     return {
-      orders: null,
+      orders: [],
       status: null,
       loader: true,
       active: 0,
     };
   },
   methods: {
+    handler() {
+      this.status.handled++;
+      this.status.non_handled--;
+    },
+    back() {
+      this.status.handled--;
+      this.status.non_handled++;
+    },
     async loadData(number) {
+      this.orders = [];
+      this.active = number;
       const response = await fetch(
         `${this.$config.apiUrl}api/order/get-all-order/${number}`,
         {
@@ -172,7 +137,6 @@ export default {
       this.active = number;
       let result = await response.json();
       this.orders = result.data;
-      console.log(result.data);
       this.loader = false;
       this.status = result.status;
     },
